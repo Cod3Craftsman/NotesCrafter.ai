@@ -1,12 +1,32 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import logo from "../../public/logo.png"
 import { useState } from 'react';
+import axios from "axios"
+import { serverUrl } from "../App"
+import { setUserData } from '../redux/userSlice.js';
+import { useNavigate } from 'react-router-dom';
+
 function NavBar() {
   const { userData } = useSelector((state => state.user))
-  const credits = userData.user.credits
+  const credits = userData?.user?.credits
   const [showCredits, setShowCredits] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handleSignOut = async () => {
+    try {
+      await axios.get(`${serverUrl}/api/auth/logout`, { withCredentials: true })
+      dispatch(setUserData(null))
+      navigate("/auth")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
@@ -51,14 +71,14 @@ function NavBar() {
               >
                 <h4 className='font-semibold mb-2 text-white/90 text-xl'>Buy Credits</h4>
                 <p className='text-sm mt-3 text-gray-300 '>Use Credits to generate AI notes, diagrams & PDF's.</p>
-                <button onClick={() => setShowCredits(false)} className='bg-white text-black py-2 h-10 w-full rounded-xl mt-4 font-semibold hover:opacity-90 cursor-pointer'>Buy More Credits</button>
+                <button onClick={() => { setShowCredits(false) }} className='bg-white text-black py-2 h-10 w-full rounded-xl mt-4 font-semibold hover:opacity-90 cursor-pointer'>Buy More Credits</button>
               </motion.div>
             }
           </AnimatePresence>
         </div>
 
         {/* Profile section */}
-        <div className='relative'>
+        <div className='relative cursor-pointer'>
           <motion.div
             onClick={() => setShowProfile(!showProfile)}
             whileHover={{ scale: 1.07 }}
@@ -68,30 +88,41 @@ function NavBar() {
             <span className='text-md font-semibold text-white'>{userData?.user?.name?.slice(0, 1).toUpperCase()}</span>
 
 
+
+
+            {/* PROFILE POPUP */}
             <AnimatePresence>
               {showProfile &&
                 <motion.div
-                  className='absolute right-0 mt-7 w-64 rounded-2xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.7)] p-4 text-white'
+                  className='absolute right-0 mt-55 w-64 rounded-2xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.7)] p-4 text-white'
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.97 }}
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                 >
-                  <h4 className='font-semibold mb-2 text-white/90 text-xl'>Buy Credits</h4>
-                  <p className='text-sm mt-3 text-gray-300 '>Use Credits to generate AI notes, diagrams & PDF's.</p>
-                  <button onClick={() => setShowCredits(false)} className='bg-white text-black py-2 h-10 w-full rounded-xl mt-4 font-semibold hover:opacity-90 cursor-pointer'>Buy More Credits</button>
+
+                  <MenuItem text="History" onClick={() => setShowProfile(false)} />
+                  <div className='h-px bg-white/10 mx-3'></div>
+                  <MenuItem text="Sign Out" red onClick={handleSignOut} />
+
                 </motion.div>
               }
             </AnimatePresence>
-
-
-
-
 
           </motion.div>
         </div>
       </div>
     </motion.div>
+  )
+}
+
+function MenuItem({ onClick, text, red }) {
+  return (
+    <div
+      onClick={onClick}
+      className={`w-full text-left px-5 py-3 text-sm transition-colors rounded-lg ${red ? "text-red-400 hover:bg-red-500/10" : "text-gray-200 hover:bg-white/10"}`}>
+      {text}
+    </div>
   )
 }
 
