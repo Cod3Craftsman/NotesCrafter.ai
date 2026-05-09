@@ -4,6 +4,9 @@ import Auth from './pages/Auth'
 import { useEffect } from 'react'
 import { getCurrentUser } from './services/api.js'
 import { useDispatch, useSelector } from 'react-redux'
+import History from './pages/History.jsx'
+import Notes from './pages/Notes.jsx'
+import Pricing from './pages/Pricing.jsx'
 export const serverUrl = "http://localhost:8000"
 function App() {
   const dispatch = useDispatch()
@@ -19,6 +22,9 @@ function App() {
     <Routes>
       <Route path='/' element={userData ? <Home /> : <Navigate to="/auth" replace/>} />
       <Route path='/auth' element={userData ? <Navigate to="/" replace /> : <Auth />} />
+      <Route path='/history' element={userData ? <History /> : <Auth />} />
+      <Route path='/notes' element={userData ? <Notes /> : <Auth />} />
+      <Route path='/pricing' element={userData ? <Pricing /> : <Auth />} />
     </Routes>
   )
 }

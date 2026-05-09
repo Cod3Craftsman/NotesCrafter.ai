@@ -185,7 +185,7 @@ function NavBar() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => setShowCredits(false)}
+                    onClick={() => {setShowCredits(false); navigate("/pricing")}}
                     className="w-full py-2.5 rounded-xl text-sm font-semibold text-white cursor-pointer"
                     style={{
                       background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
