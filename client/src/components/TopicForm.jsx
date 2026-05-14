@@ -1,14 +1,101 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { generateNotes } from '../services/api.js';
+import { useDispatch } from 'react-redux';
+import { updateCredits } from '../redux/userSlice.js';
 
 function TopicForm({ setResult, setLoading, loading, setError }) {
+
   const [topic, setTopic] = useState("");
   const [classLevel, setClassLevel] = useState("");
   const [examType, setExamType] = useState("");
   const [revisionMode, setRevisionMode] = useState(false);
   const [includeDiagram, setIncludeDiagram] = useState(false);
   const [includeChart, setIncludeChart] = useState(false);
+  const [progress, setProgress] = useState(0)
+  const [progressText, setProgressText] = useState("")
+  const dispatch = useDispatch()
 
+
+
+  const handleSubmit = async () => {
+    if (topic === "") return
+    try {
+      if (!topic.trim()) {
+        setError("Please enter the topic")
+        return
+      }
+
+      setError("")
+
+      setLoading(true)
+      setResult(null)
+
+      try {
+        const result = await generateNotes({
+          topic,
+          classLevel,
+          examType,
+          revisionMode,
+          includeDiagram,
+          includeChart
+        })
+
+        setResult(result.data)
+        setLoading(false)
+        setTopic("")
+        setClassLevel("")
+        setExamType("")
+      } catch (error) {
+        console.log(error)
+        setError("Failed to fetch notes from server")
+        setLoading(false)
+        setIncludeChart(false)
+        setRevisionMode(false)
+        setIncludeDiagram(false)
+
+        if(typeof result.creditsLeft === "number"){
+          dispatch(updateCredits(result.creditsLeft))
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
+
+  useEffect(() => {
+    if (!loading) {
+      setProgress(0);
+      setProgressText("")
+      return;
+    }
+
+    let value = 0;
+    const interval = setInterval(() => {
+      value += Math.random() * 8
+
+      if (value >= 95) {
+        value = 95
+        setProgressText("Almost Done")
+        clearInterval(interval)
+      } else if (value > 70) {
+        setProgressText("Finalizing notes...")
+      } else if (value > 40) {
+        setProgressText("Processing content...")
+      } else {
+        setProgressText("Crafting your notes...")
+      }
+
+      setProgress(Math.floor(value))
+
+    }, 700)
+
+    return () => clearInterval(interval);
+
+  }, [loading])
 
   return (
     <motion.div
@@ -93,6 +180,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
       </div>
 
       <motion.button
+        onClick={handleSubmit}
         whileHover={!loading ? { scale: 1.02 } : {}}
         whileTap={!loading ? { scale: 0.97 } : {}}
         disabled={loading}
@@ -123,6 +211,30 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
     .animate-spin { animation: spin 0.75s linear infinite; }
   `}</style>
       </motion.button>
+
+
+      {loading &&
+
+        <div className='mt-4 space-y-2'>
+          <div className='w-full h-2 rounded-full bg-white/10 overflow-hidden'>
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ ease: "easeOut", duration: 0.6 }}
+              className='h-full bg-gradient-to-r from-green-400 via-emerald-400 to-green-500'>
+            </motion.div>
+          </div>
+
+
+          <div className='flex justify-between text-xs text-gray-300'>
+            <span>{progressText}</span>
+            <span>{progress}</span>
+          </div>
+
+          <p className='text-xs text-gray-400 text-center'>
+            This may take up to 2-5 minutes. Please don't close or refresh the page.
+          </p>
+        </div>}
 
     </motion.div>
   )
