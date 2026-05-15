@@ -1,7 +1,7 @@
 import React from 'react'
 
 function SideBar({ result }) {
-  if (!result || !result.subTopics || !result.questions || !result.questions.short || !result.questions.long) return null
+  if (!result || !result.subTopics || !result.revisionPoints || !result.questions || !result.questions.short || !result.questions.long) return null
 
 
   return (

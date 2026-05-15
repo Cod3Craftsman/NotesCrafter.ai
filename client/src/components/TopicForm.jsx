@@ -222,9 +222,10 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
           <div className='w-full h-2 rounded-full bg-white/10 overflow-hidden'>
             <motion.div 
               initial={{ width: 0 }}
-              animate={{ width: `${progress}+%` }}
+              animate={{ width: `${progress}%` }}
               transition={{ ease: "easeOut", duration: 0.6 }}
               className='h-full bg-gradient-to-r from-green-400 via-emerald-400 to-green-500'>
+                {progress}%
             </motion.div>
           </div>
 
