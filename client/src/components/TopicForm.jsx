@@ -232,7 +232,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
 
           <div className='flex justify-between text-xs text-gray-300'>
             <span>{progressText}</span>
-            <span>{progress}</span>
+            <span>{progress}%</span>
           </div>
 
           <p className='text-xs text-gray-400 text-center'>
