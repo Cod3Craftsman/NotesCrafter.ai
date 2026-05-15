@@ -70,11 +70,12 @@ function SideBar({ result }) {
 
 
 
+{/* Diagram questions */}
         <div className='mb-4 rounded-lg bg-blue-50 border border-blue-200 p-3'>
           <p className='text-sm font-bold text-blue-700 mb-2'>Diagram Question</p>
 
           <ul className='list-disc ml-4 text-sm text-gray-700 space-y-1'>
-            <li>{result?.questions?.diagram}</li>
+            <li>{result?.questions?.diagram}</li>  
           </ul>
         </div>
       </section>
