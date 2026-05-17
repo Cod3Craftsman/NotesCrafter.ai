@@ -16,12 +16,39 @@ export const getCurrentUser = async (dispatch) => {
 
 export const generateNotes = async (payload) => {
   try {
-    const result = await axios.post(`${serverUrl}/api/notes/generate-notes` , payload , {withCredentials : true})
-    console.log(result.data)
-    return result.data
-
-    
+    const result = await axios.post(
+      `${serverUrl}/api/notes/generate-notes`,
+      payload,
+      { withCredentials: true },
+    );
+    console.log(result.data);
+    return result.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+  }
+};
+
+export const downloadPdf = async (result) => {
+  try {
+    const res = await axios.post(
+      `${serverUrl}/api/pdf/generate-pdf`,
+      { result },
+      { responseType: "blob", withCredentials: true },
+    );
+
+    const blob = new Blob([res.data], {
+      type: "application/pdf",
+    });
+
+
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = "NotesCrafterAI.pdf"
+    link.click()
+
+    window.URL.revokeObjectURL(url)
+  } catch (error) {
+    throw new Error("PDF download failed")
   }
 };

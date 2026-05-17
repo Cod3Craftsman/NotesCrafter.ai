@@ -38,8 +38,8 @@ function SideBar({ result }) {
 
 
       <section className='rounded-lg bg-yellow-50 border border-yellow-200 p-3'>
-        <p>🔥Exam Importance</p>
-        <span className='text-yellow-700 font-bold text-sm'>{result.importance}</span>
+        <p className='ml-15 font-semibold'>🔥High-Value Topics</p>
+        <span className='text-yellow-700 font-bold text-sm pl-15'>{result.importance}</span>
 
         <p className='text-sm mt-2 font-semibold text-gray-700 mb-3'>❗Important Questions</p>
 

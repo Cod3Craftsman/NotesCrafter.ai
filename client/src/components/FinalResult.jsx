@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import MermaidSetup from './MermaidSetup'
 import ReChartSetUp from './ReChartSetUp'
+import { downloadPdf } from '../services/api.js'
 
 const markDownComponent = {
   h1: ({ children }) => (
@@ -71,7 +72,9 @@ function FinalResult({ result }) {
 
             {quickRevision ? "Exit Revision Mode" : "Quick Revision Mode"}
           </button>
-          <button className='px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 cursor-pointer'>
+          <button
+            onClick={()=> downloadPdf(result)}
+          className='px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 cursor-pointer'>
             Download Pdf
           </button>
         </div>
