@@ -30,7 +30,7 @@ function ReChartSetUp({ charts }) {
 
 
               {chart.type === 'line' && (
-                <LineChart dataKey={chart.data}>
+                <LineChart data={chart.data}>
                   <XAxis data="name" />
                   <YAxis />
                   <Tooltip />
@@ -42,11 +42,23 @@ function ReChartSetUp({ charts }) {
               {chart.type === 'pie' && (
                 <PieChart>
                   <Tooltip />
-                  <Pie data={chart.data} dataKey="value" nameKey="name" outerRadius={100} label />
-                  {chart.data.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                  ))}
+
+                  <Pie
+                    data={chart.data}
+                    dataKey="value"
+                    nameKey="name"
+                    outerRadius={100}
+                    label
+                  >
+                    {chart.data.map((_, i) => (
+                      <Cell
+                        key={i}
+                        fill={COLORS[i % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
                 </PieChart>
+              
               )}
             </ResponsiveContainer>
           </div>
