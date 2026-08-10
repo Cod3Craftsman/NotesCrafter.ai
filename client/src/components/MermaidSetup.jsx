@@ -10,6 +10,7 @@ const cleanMermaidChart = (diagram) => {
   if (!diagram) return "";
 
   let clean = diagram
+    .replace(/\\n/g, "\n")   // ONLY NEW LINE
     .replace(/\r\n/g, "\n")
     .trim();
 
