@@ -16,7 +16,7 @@ app.post("/api/credits/webhooks" , express.raw({type : "application/json"}), str
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://notescrafter-aiclient.onrender.com",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   }),
