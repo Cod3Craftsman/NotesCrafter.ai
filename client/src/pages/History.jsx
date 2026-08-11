@@ -26,7 +26,6 @@ function History() {
     const myNotes = async () => {
       try {
         const res = await axios.get(serverUrl + "/api/notes/getnotes", { withCredentials: true })
-        console.log(res.data)
         setTopics(Array.isArray(res.data) ? res.data : [])
       } catch (error) {
         console.log(error)
@@ -166,7 +165,13 @@ function History() {
                   {topics.map((t, i) => (
 
 
-                    <li key={i} onClick={() => openNotes(t._id)} className={`
+                    <li key={i} onClick={() => {
+                      openNotes(t._id);
+
+                      if (window.innerWidth < 1024) {
+                        setSideBar(false);
+                      }
+                    }} className={`
                       cursor-pointer rounded-xl p-3 border transition-all
                       ${activeNoteId === t._id ? "bg-indigo-500/30 border-indigo-400 shadow-[0_0_0_1px_rgba(99,102,241,0.6)]"
                         : "bg-white/5 border-white/10 hover:bg-white/10"

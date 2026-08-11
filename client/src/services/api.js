@@ -7,7 +7,6 @@ export const getCurrentUser = async (dispatch) => {
     const result = await axios.get(`${serverUrl}/api/user/currentuser`, {
       withCredentials: true,
     });
-    console.log(result.data.user);
     dispatch(setUserData(result.data));
   } catch (error) {
     console.error(error);
@@ -21,7 +20,6 @@ export const generateNotes = async (payload) => {
       payload,
       { withCredentials: true },
     );
-    console.log(result.data);
     return result.data;
   } catch (error) {
     console.log(error);

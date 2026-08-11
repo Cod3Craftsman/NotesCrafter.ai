@@ -19,7 +19,6 @@ function App() {
 
 
   const { userData } = useSelector((state) => state.user)
-  console.log(userData)
   return (
     <Routes>
       <Route path='/' element={userData ? <Home /> : <Navigate to="/auth" replace/>} />

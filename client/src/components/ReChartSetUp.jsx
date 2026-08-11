@@ -31,7 +31,7 @@ function ReChartSetUp({ charts }) {
 
               {chart.type === 'line' && (
                 <LineChart data={chart.data}>
-                  <XAxis data="name" />
+                  <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
                   <Line type="monotone" dataKey="value" stroke="#6366f1" strokeWidth={3} />

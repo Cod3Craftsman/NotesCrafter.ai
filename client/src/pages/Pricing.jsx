@@ -165,7 +165,7 @@ function PricingCard({
 
       <ul className="mt-5 space-y-2 text-sm text-gray-600">
         {features.map((f, i) => (
-          <li className="flex gap-2">
+          <li key={i} className="flex gap-2">
             <span className="text-green-600">✔️</span>
             {f}
           </li>
