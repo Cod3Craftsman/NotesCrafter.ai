@@ -5,7 +5,6 @@ import logo from "../assets/logo.png"
 const footerLinks = [
   { label: "Notes", href: "/notes" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Add Credits", href: "/credits" },
 ]
 
 const socialLinks = [
