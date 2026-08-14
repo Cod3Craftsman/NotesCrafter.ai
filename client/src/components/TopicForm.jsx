@@ -19,52 +19,54 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
 
 
   const handleSubmit = async () => {
-    if (topic === "") return
+  if (topic === "") return
+  try {
+    if (!topic.trim()) {
+      setError("Please enter the topic")
+      return
+    }
+
+    setError("")
+
+    setLoading(true)
+    setResult(null)
+
     try {
-      if (!topic.trim()) {
-        setError("Please enter the topic")
-        return
+      const result = await generateNotes({
+        topic,
+        classLevel,
+        examType,
+        revisionMode,
+        includeDiagram,
+        includeChart
+      })
+
+      setResult(result.data)
+
+      if (typeof result.creditsLeft === "number") {
+        dispatch(updateCredits(result.creditsLeft))
       }
 
-      setError("")
+      setLoading(false)
+      setTopic("")
+      setClassLevel("")
+      setExamType("")
+      setIncludeChart(false)
+      setIncludeDiagram(false)
+      setRevisionMode(false)
 
-      setLoading(true)
-      setResult(null)
-
-      try {
-        const result = await generateNotes({
-          topic,
-          classLevel,
-          examType,
-          revisionMode,
-          includeDiagram,
-          includeChart
-        })
-
-        setResult(result.data)
-        setLoading(false)
-        setTopic("")
-        setClassLevel("")
-        setExamType("")
-        setIncludeChart(false)
-        setIncludeDiagram(false)
-        setRevisionMode(false)
-      } catch (error) {
-        console.log(error)
-        setError("Failed to fetch notes from server")
-        setLoading(false)
-        setIncludeChart(false)
-        setRevisionMode(false)
-        setIncludeDiagram(false)
-
-        if(typeof result.creditsLeft === "number"){
-          dispatch(updateCredits(result.creditsLeft))
-        }
-      }
     } catch (error) {
       console.log(error)
+      setError("Failed to fetch notes from server")
+      setLoading(false)
+      setIncludeChart(false)
+      setRevisionMode(false)
+      setIncludeDiagram(false)
     }
+  } catch (error) {
+    console.log(error)
   }
+}
 
 
 

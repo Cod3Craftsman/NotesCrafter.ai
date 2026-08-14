@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 function NavBar() {
   const { userData } = useSelector((state) => state.user)
-  const credits = userData?.user?.credits
+  const credits = userData?.credits
   const [showCredits, setShowCredits] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
 
@@ -39,7 +39,7 @@ function NavBar() {
     }
   }
 
-  const userName = userData?.user?.name?.slice(0, 1).toUpperCase()
+  const userName = userData?.name?.slice(0, 1).toUpperCase()
 
   return (
     <motion.nav
@@ -246,10 +246,10 @@ function NavBar() {
                       </div>
                       <div className="overflow-hidden">
                         <p className="text-white text-sm font-semibold truncate">
-                          {userData?.user?.name}
+                          {userData?.name}
                         </p>
                         <p className="text-gray-500 text-xs truncate">
-                          {userData?.user?.email}
+                          {userData?.email}
                         </p>
                       </div>
                     </div>

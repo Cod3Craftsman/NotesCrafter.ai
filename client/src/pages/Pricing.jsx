@@ -89,7 +89,7 @@ function Pricing() {
           title="Pro Learner"
           price="500"
           amount={500}
-          credits="500 Credits"
+          credits="300 Credits"
           description="For serious exam preparation"
           features={[
             "AI - powered study support",

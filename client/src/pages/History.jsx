@@ -18,7 +18,7 @@ function History() {
 
   const navigate = useNavigate()
   const { userData } = useSelector(state => state.user)
-  const credits = userData?.user?.credits
+  const credits = userData?.credits
 
 
 

@@ -11,7 +11,7 @@ import FinalResult from '../components/FinalResult'
 function Notes() {
   const navigate = useNavigate()
   const { userData } = useSelector(state => state.user)
-  const credits = userData?.user?.credits
+  const credits = userData?.credits
 
 
   const [loading, setLoading] = useState(false)
